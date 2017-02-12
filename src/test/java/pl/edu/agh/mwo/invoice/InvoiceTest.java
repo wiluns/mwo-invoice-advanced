@@ -20,7 +20,7 @@ public class InvoiceTest {
 	@Test
 	public void testEmptyInvoiceHasEmptySubtotal() {
 		Invoice invoice = createEmptyInvoice();
-		assertBigDecimalsAreEqual(BigDecimal.ZERO, invoice.getSubtotal());
+		assertBigDecimalsAreEqual(BigDecimal.ZERO, invoice.getNettotal());
 	}
 
 	@Test
@@ -32,14 +32,14 @@ public class InvoiceTest {
 	@Test
 	public void testEmptyInvoiceHasEmptyTotal() {
 		Invoice invoice = createEmptyInvoice();
-		assertBigDecimalsAreEqual(BigDecimal.ZERO, invoice.getTotal());
+		assertBigDecimalsAreEqual(BigDecimal.ZERO, invoice.getGrossTotal());
 	}
 
 	@Test
 	public void testInvoiceHasTheSameSubtotalAndTotalIfTaxIsZero() {
 		Invoice invoice = createEmptyInvoice();
 		invoice.addProduct(createTaxFreeProduct(), 1);
-		assertBigDecimalsAreEqual(invoice.getSubtotal(), invoice.getTotal());
+		assertBigDecimalsAreEqual(invoice.getNettotal(), invoice.getGrossTotal());
 	}
 
 	@Test
@@ -48,7 +48,7 @@ public class InvoiceTest {
 		invoice.addProduct(createTaxFreeProduct(), 1);
 		invoice.addProduct(createOtherProduct(), 1);
 		invoice.addProduct(createDairyProduct(), 1);
-		assertBigDecimalsAreEqual("259.99", invoice.getSubtotal());
+		assertBigDecimalsAreEqual("259.99", invoice.getNettotal());
 	}
 
 	@Test
@@ -66,7 +66,7 @@ public class InvoiceTest {
 		invoice.addProduct(createTaxFreeProduct());
 		invoice.addProduct(createOtherProduct());
 		invoice.addProduct(createDairyProduct());
-		assertBigDecimalsAreEqual("272.29", invoice.getTotal());
+		assertBigDecimalsAreEqual("272.29", invoice.getGrossTotal());
 	}
 
 	@Test
@@ -75,7 +75,7 @@ public class InvoiceTest {
 		invoice.addProduct(createTaxFreeProduct(), 3); // Subtotal: 599.97
 		invoice.addProduct(createOtherProduct(), 2); // Subtotal: 100.00
 		invoice.addProduct(createDairyProduct(), 4); // Subtotal: 40.00
-		assertBigDecimalsAreEqual("739.97", invoice.getSubtotal());
+		assertBigDecimalsAreEqual("739.97", invoice.getNettotal());
 	}
 
 	@Test
@@ -84,7 +84,7 @@ public class InvoiceTest {
 		invoice.addProduct(createTaxFreeProduct(), 3); // Total: 599.97
 		invoice.addProduct(createOtherProduct(), 2); // Total: 123.00
 		invoice.addProduct(createDairyProduct(), 4); // Total: 43.2
-		assertBigDecimalsAreEqual("766.17", invoice.getTotal());
+		assertBigDecimalsAreEqual("766.17", invoice.getGrossTotal());
 	}
 
 	@Test(expected = IllegalArgumentException.class)
