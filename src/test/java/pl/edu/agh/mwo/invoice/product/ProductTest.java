@@ -20,14 +20,14 @@ public class ProductTest {
 	@Test
 	public void testProductPriceAndTaxWithDefaultTax() {
 		Product product = new OtherProduct(SAMPLE_PRODUCT_NAME, new BigDecimal("100.0"));
-		assertBigDecimalsAreEqual("100.0", product.getPrice());
+		assertBigDecimalsAreEqual("100.0", product.getPriceWithOutPrice());
 		assertBigDecimalsAreEqual("0.23", product.getTaxPercent());
 	}
 
 	@Test
 	public void testProductPriceAndTaxWithDairyProduct() {
 		Product product = new DairyProduct(SAMPLE_PRODUCT_NAME, new BigDecimal("100.0"));
-		assertBigDecimalsAreEqual("100.0", product.getPrice());
+		assertBigDecimalsAreEqual("100.0", product.getPriceWithOutPrice());
 		assertBigDecimalsAreEqual("0.08", product.getTaxPercent());
 	}
 
