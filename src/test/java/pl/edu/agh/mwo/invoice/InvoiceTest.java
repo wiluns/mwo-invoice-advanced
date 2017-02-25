@@ -4,6 +4,8 @@ import static org.junit.Assert.assertEquals;
 
 import java.math.BigDecimal;
 
+import org.hamcrest.Matchers;
+import org.junit.Assert;
 import org.junit.Test;
 
 import pl.edu.agh.mwo.invoice.Invoice;
@@ -100,6 +102,7 @@ public class InvoiceTest {
 	}
 
 	private Invoice createEmptyInvoice() {
+		
 		return new Invoice();
 	}
 
@@ -122,5 +125,88 @@ public class InvoiceTest {
 	private void assertBigDecimalsAreEqual(BigDecimal expected, BigDecimal actual) {
 		assertEquals(expected.stripTrailingZeros(), actual.stripTrailingZeros());
 	}
-
+	@Test
+	public void testInvoiceHasNumber(){
+		Invoice invoice = createEmptyInvoice();
+		Assert.assertThat(invoice.getNumber(), Matchers.greaterThan(1));
+		
+		}
+	
+	@Test
+	public void testManyInvoiceHasNumber(){
+		Invoice invoice = createEmptyInvoice();
+		Invoice invoice2 = createEmptyInvoice();
+		Assert.assertNotEquals(invoice.getNumber(),invoice2.getNumber());
+	}
+		
+   @Test
+   public void testPrintedTestHasNumber(){
+	   
+	   Invoice invoice = createEmptyInvoice();
+	   String printedVersion=invoice.printedVersion();
+	   String invoiceNumber = String.valueOf(invoice.getNumber());
+	   Assert.assertThat(printedVersion, Matchers.containsString(invoiceNumber));
+	   
+	   
+   }
+   @Test
+   public void testPrintedTestproductName(){
+	   Invoice invoice = createEmptyInvoice();
+	   invoice.addProduct(new DairyProduct("mleko",new BigDecimal(2)));
+	   String printedVersion=invoice.printedVersion();
+	   String Mleko = "mleko";
+	   Assert.assertThat(printedVersion, Matchers.containsString(Mleko));
+	      
+   }
+   @Test
+   public void testPrintedTestproductType(){
+	   Invoice invoice = createEmptyInvoice();
+	   Product product= new DairyProduct("mleko",new BigDecimal(2));
+	   invoice.addProduct(product,1);
+	   String printedVersion=invoice.printedVersion();
+	   String Typ = "DairyProduct";
+	   Assert.assertThat(printedVersion, Matchers.containsString(Typ));
+	      
+   }
+   @Test
+   public void testPrintedTestproductQuantity(){
+	   Invoice invoice = createEmptyInvoice();
+	   Product product= new DairyProduct("mleko",new BigDecimal(2));
+	   int quantity=2;
+	   invoice.addProduct(product,quantity);
+	   String printedVersion=invoice.printedVersion();
+	   String Typ = String.valueOf(quantity);
+	   Assert.assertThat(printedVersion, Matchers.containsString(Typ));
+	      
+   }
+   @Test
+   public void testPrintedTestproductPrice(){
+	   Invoice invoice = createEmptyInvoice();
+	   Product product= new DairyProduct("mleko",new BigDecimal(2));
+	   int quantity=1;
+	   invoice.addProduct(product,quantity);
+	   String printedVersion=invoice.printedVersion();
+	   String Typ = String.valueOf(quantity);
+	   Assert.assertThat(printedVersion, Matchers.containsString("2"));
+	      
+   }
+   @Test
+   public void testPrintedTestproductNumber(){
+	   Invoice invoice = createEmptyInvoice();
+	   Product product= new DairyProduct("piwo",new BigDecimal(2));
+	   int quantity=1;
+	   invoice.addProduct(product,quantity);
+	
+	   Product product2= new DairyProduct("ser",new BigDecimal(2));
+	   int quantity1=5;
+	   invoice.addProduct(product2,quantity1);
+	   Product product3= new DairyProduct("ser",new BigDecimal(2));
+	   int quantity11=6;
+	   invoice.addProduct(product3,quantity11);
+	  	   
+	   String printedVersion=invoice.printedVersion();
+	   //String Typ = String.valueOf(quantity11);
+	   
+	   Assert.assertThat(printedVersion, Matchers.containsString("Liczba pozycji 3"));
+   } 
 }
